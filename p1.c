@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <math.h>
-#include <stdlib.h>
 
 typedef struct{
 	double x;
@@ -14,7 +13,7 @@ int main(void){
     int n=10;
 	int i;
 
-	Point points[10];
+	Point points[n];
 	Point stdev;
 	Point average;
     
@@ -49,10 +48,6 @@ Point averages(Point *point, int n, Point *stdev) {
 		avg.y=avg.y+point[i].y;
 		sq_avg.x=sq_avg.x+point[i].x*point[i].x;
 		sq_avg.y=sq_avg.y+point[i].y*point[i].y;
-		printf("\n%f\n",avg.x);
-		printf("%f\n",avg.y);
-		printf("%f\n",sq_avg.x);
-		printf("%f\n",sq_avg.y);
     }
 
 	/*Average*/
@@ -60,10 +55,9 @@ Point averages(Point *point, int n, Point *stdev) {
 	avg.y=avg.y/n;
 	
 	/*Variation*/
-	sq_avg.x = sq_avg.x*n/(n-1) - avg.x;
-	sq_avg.y = sq_avg.y*n/(n-1) - avg.y;
+	sq_avg.x = sq_avg.x/(n-1) - (avg.x*avg.x*n)/(n-1);
+	sq_avg.y = sq_avg.y/(n-1) - (avg.y*avg.y*n)/(n-1);
 	
-	printf("juu\n");
 	/*Standard deviation*/
 	stdev->x = sqrt(sq_avg.x);
 	stdev->y = sqrt(sq_avg.y);
