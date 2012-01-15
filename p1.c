@@ -15,7 +15,7 @@ int main(void){
 	int i;
 
 	Point points[10];
-	Point *stdev;
+	Point stdev;
 	Point average;
     
     for(i = 0; i < n; i++){
@@ -24,12 +24,12 @@ int main(void){
 		printf("%f %f\n", points[i].x, points[i].y);
     }
 
-	average=averages(points, n, stdev);
+	average=averages(points, n, &stdev);
 	
 	printf("\n%f\n",average.x);
 	printf("%f\n",average.y);
-	printf("%f\n",stdev->x);
-	printf("%f\n",stdev->y);
+	printf("%f\n",stdev.x);
+	printf("%f\n",stdev.y);
 
     return 0;
 }
@@ -67,7 +67,6 @@ Point averages(Point *point, int n, Point *stdev) {
 	/*Standard deviation*/
 	stdev->x = sqrt(sq_avg.x);
 	stdev->y = sqrt(sq_avg.y);
-	printf("jaa\n");
 	
     return avg;
 }
