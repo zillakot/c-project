@@ -1,46 +1,49 @@
-recursive subroutine shortest_path(airport,stack,head,count,N,distances,shortestdistance,shortestroute)
-  implicit none
-  integer :: i,j,head,st=0,count,N
-  integer :: stack(N)
-  type(map_target) :: airport(N), shortestroute(N)
-  real :: s,shortestdistance
-  real :: distances(N,N)
-  
-  do i=2,N
-   !Choose next point
-  stack(head+1)=i
+#include <stdio.h>
+#define N 5
 
-   !Check that point is not visited yet 
-  do j=1,head
-    if (stack(head+1)==stack(j)) st=1
-  end do
-  if (st==1) then 
-	 st=0
-  else
-  
-  !If point is visited jump over next statement
-    !kutsutaan rekursiivista aliohjelmaa
-    if (head < N-1) call shortest_path(airport,stack,head+1,count,N,distances,shortestdistance,shortestroute)
-    !kun rekursio saavuttaa maksimisyvyyden (m=N-1) niin tulostetaan reitti, rekursion syvyys ja reitin pituus
-    if (head == N-1) then
-	  
-	  count=count+1
-	  !Calculate travelled distance
-	  s=0
-	  do j=1,N-1
-         s=s+distances(stack(j),stack(j+1))
-      enddo
-      s=s+distances(stack(N),stack(1))
-      
-      if (s<shortestdistance) then
-         shortestdistance=s
-         write(*,*) s,stack
-		 do j=1,N
-	       shortestroute(j)=airport(stack(j)) 
-	     enddo
-	     
-      end if
-    end if
-  endif
-  enddo
-end subroutine shortest_path
+void anagram_maker(int *stack, int head, int *count, char *anagrammi);
+
+int main(){
+
+    char anagrammi[]={'A','B','C','C','A'};
+    int count;
+    int i;
+    int stack[5];
+    count=0;
+    
+	for(i=0; i<N; i++){
+    	stack[0]=i;
+    	anagram_maker(stack, 1, &count, anagrammi);
+	}
+	return 0;
+}
+
+void anagram_maker(int *stack, int head, int *count, char *anagrammi){
+    int i, j, used;
+    
+    for(i=0; i<N; i++){
+    
+		stack[head+1]=i;
+    
+    	/* check if used*/
+    	for(j=0; j<head; j++){
+        	if(stack[head+1] == stack[j]) used=1; 
+    	}
+    
+    	if(used == 1){
+        used = 0;
+    	} else {
+    
+        	if(head < N-2){
+            	anagram_maker(stack, head+1 ,count, anagrammi);
+        	} else {
+            	
+				count++;
+                printf("\n%i\n,  ", *count);
+            	for(j=0; j<N; j++){
+                	printf("%c", anagrammi[stack[j]]);
+            	}
+        	}
+    	}
+	}
+}
